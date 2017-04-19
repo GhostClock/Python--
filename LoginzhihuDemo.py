@@ -1,7 +1,12 @@
 import requests
+
 url = "https://www.zhihu.com/#signin"
 
-z = requests.get(url)
+try:
+     z = requests.get(url) 
+except EOFError :
+    print "error",EOFError.message
+
 print z.status_code
 
 headers = {

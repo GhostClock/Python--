@@ -1,0 +1,24 @@
+Where do you live zed
+>11
+What Kind of computer do you have ?
+>11
+
+Alrght ,so you said '11' about linking me,
+You live in '11' ,Not sure Where that is,
+And you hava a '11' computer, Nice
+
+GhostClock:PythonSpider_Study GhostClock$ python 基础笔记-Test.py zed
+Hi zed, Im the 基础笔记-Test.py script
+Id like to ask you a faw questions
+Do you link me zed
+---->Yes
+Where do you live zed
+---->sss
+What Kind of computer do you have ?
+---->dddd
+
+Alrght ,so you said 'Yes' about linking me,
+You live in 'sss' ,Not sure Where that is,
+And you hava a 'dddd' computer, Nice
+
+GhostClock:PythonSpider_Study GhostClock$
