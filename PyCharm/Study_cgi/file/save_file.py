@@ -1,28 +1,26 @@
 #!/usr/bin/python
-# coding:utf-8
+# -*- coding:utf-8 -*-
 
-import cgi,os
+import cgi, os
 import cgitb; cgitb.enable()
 
-form = cgi.FieldStorage()
 
 # 获取文件名
-fileitem = form.getvalue('filename')
+f = cgi.FieldStorage().getvalue('filename')
 
-
-#检测文件是否上传
-if fileitem.filename :
+# 检测文件是否上传
+if f is not  None:
     # 设置文件路径
-    fn = os.path.basename(fileitem.filename)
-    open('/tmp/' + fn,'wb').write(fileitem.filename)
+    fn = os.path.basename(f.filename.replace("","/"))
+    open('/tmp/' + fn,'wb').write(f.file.read())
 
     message = '文件 "' + fn + '" 上传成功'
 
 else:
     message = "文件没有上传"
 
-print """\
-    Content-type:text/html\n
+print """
+    Content-Type:text/html
     <html>
         <head>
             <meta charset="utf-8">
@@ -32,4 +30,4 @@ print """\
             <p> %s </p>
         </body>
     </html>
-""" % message
+""" % (message,)
