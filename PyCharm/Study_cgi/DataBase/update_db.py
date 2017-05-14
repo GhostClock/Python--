@@ -3,10 +3,10 @@
 
 import pymysql
 
-def update(db):
+def update(db,tablename):
     cursor = db.cursor()
 
-    sql = "update emplpyee set age = age + 1 where sex = '%c'" % ('M')
+    sql = "update %s set age = age + 1 where sex = '%c'" % (tablename,'M')
     try:
         cursor.execute(sql)
         db.commit

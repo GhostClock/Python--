@@ -2,10 +2,10 @@
 # coding=utf-8
 import pymysql
 
-def delete(db):
+def delete(db,tablename):
     cursor = db.cursor()
 
-    sql = "delete from emplpyee where age > '%d'" % (30)
+    sql = "delete from %r where id > '%d'" % (tablename,30)
 
     try:
         cursor.execute(sql)

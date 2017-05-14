@@ -3,11 +3,11 @@
 
 import pymysql
 
-def insertData(db,id,first_name,last_name,age,sex,income):
+def insertData(db,tablename,id,first_name,last_name,age,sex,income):
     cursor = db.cursor()
 
-    sql = "insert into emplpyee (id,first_name,last_name,age,sex,income) values ('%d','%s','%s','%d','%s','%d')" % \
-          (id,first_name,last_name,age,sex,income)
+    sql = "insert into %s (id,first_name,last_name,age,sex,income) values ('%d','%s','%s','%d','%s','%d')" % \
+          (tablename,id,first_name,last_name,age,sex,income)
 
     try:
         cursor.execute(sql)

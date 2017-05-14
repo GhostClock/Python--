@@ -3,10 +3,10 @@
 
 import pymysql
 
-def query(db):
+def query(db,tablename):
     cursor = db.cursor()
 
-    sql = "select * from emplpyee where income > '%d'" % (1000)
+    sql = "select * from %s where income > '%d'" % (tablename,1080) # 查询大于1090
     try:
         cursor.execute(sql)
         results = cursor.fetchall()
