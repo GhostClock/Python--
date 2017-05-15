@@ -21,3 +21,26 @@ def query(db,tablename):
             print "id = %s fname = %s lname = %s age = %s  sex = %s income = %s" % (id,fname, lname, age,sex,income)
     except pymysql.Error as error:
         print error.message
+
+
+def querylastdata(db,tablename):
+    cursor = db.cursor()
+
+    sql = "select * from %s order by id DESC limit 1" % tablename
+
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        print results
+        for row in results:
+            id      =   row[0]
+            fname   =   row[1]
+            lname   =   row[2]
+            age     =   row[3]
+            sex     =   row[4]
+            income  =   row[5]
+
+            print "id = %s fname = %s lname = %s age = %s  sex = %s income = %s" % (id,fname, lname, age,sex,income)
+        return results
+    except pymysql.Error as error:
+        print error.message
