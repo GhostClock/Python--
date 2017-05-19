@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loop in temolate</title>
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/style.css')}}">
+</head>
+<body>
+    <h1>aaaAAA</h1>
+    <p>There is a list ,it is <b>{{info}}</b></p>
+    <p>I will print the elements of this list in order</p>
+    {% for i in info %}
+        <p>{{i}}</p>
+    {% end %}
+    <br/>
+    {% for i,k in enumerate(info)%}
+        <p>info[{{i}}] if {{k}}</p>
+        {% if k == "Google" %}
+            <p><b>I love {{k}}</b></p>
+        {% end %}
+    {% end %}
+
+    {% if 'Baidu' in info %}
+        <p>Baidu in info list</p>
+    {% end %}
+    <br/>
+    <p>这是参数</p>
+    {% set var = "Python" %}
+    <p>参数 var = {{var}}</p>
+</body>
+</html>
