@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+# 这个文件的核心任务是完成tornado.web.Application()的实例化
+
 from url import url
 
 import tornado.web

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loop in template</title>
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/style.css')}}">
+</head>
+<body>
+    <h1>My WebSite is:</h1>
+    <p>{{web}}</p>
+
+
+    {% set email="<a href='mailto:ghost@gmail.com'>Connect to me</a>" %}
+    <p>{{email}}</p>    <!-- 这里是转义 -->
+    <p>{% raw email %}</p>     <!-- 这里是不转义 -->
+</body>
+</html>

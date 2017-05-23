@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 
+# 这是项目的入口文件,里面包含 if __name__ == '__main__' ，从这里启动项目和服务
+
 import tornado.ioloop
 import tornado.options
 import tornado.httpserver
