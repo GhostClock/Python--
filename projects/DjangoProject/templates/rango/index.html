@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+{% load staticfiles %} <!-- 用这个标签来使用静态媒体文件 -->
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rango</title>
+</head>
+<body>
+    <h1>Rango says……</h1>
+    hello world!! <strong>{{ boldmessage }}</strong><br/>
+    <a href="/rango/about">About</a><br />
+    <img src="{% static 'images/timg.jpg' %}" alt="美女图"> <!-- 在模板里调用static文件 -->
+</body>
+</html>
