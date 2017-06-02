@@ -23,10 +23,13 @@ SECRET_KEY = 'y4el@dywe-rd2!p9ne8v851_hus&d^66jzhhv1gdckyy978bh4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# TEMPLATE_DEBUG = False
+#
+# ALLOWED_HOSTS = ['127.0.0.1']
+
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -89,7 +92,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
