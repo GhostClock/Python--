@@ -26,7 +26,6 @@ class JobboleSpider(scrapy.Spider):
         if next_urls :
             yield Request(url=parse.urljoin(response.url, next_urls), callback=self.parse)
 
-
     def parse_detail(self, response):
         # 提取文章的具体字段
 
