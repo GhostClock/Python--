@@ -88,4 +88,6 @@ class JobboleSpider(scrapy.Spider):
         tag_list = [elment for elment in tags if not elment.strip().endswith("评论")]
         tags = ",".join(tag_list)
 
+        print(title, create_date, praise_nums, comment_nums, tags)
+
         pass
