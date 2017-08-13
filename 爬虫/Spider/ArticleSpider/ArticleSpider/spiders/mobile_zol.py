@@ -21,7 +21,6 @@ class MobileZolSpider(scrapy.Spider):
         if next_url :
             yield Request(url=parse.urljoin(response.url, next_url), callback=self.parse)
 
-        pass
 
     def parse_detail(self, response):
 

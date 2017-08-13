@@ -16,7 +16,7 @@ class CocoachinaSpider(scrapy.Spider):
         for post_url in post_urls:
             yield Request(url=parse.urljoin(response.url, post_url), callback=self.parse_detail, dont_filter=True)
 
-        # 获取下一页
+        # 获取.下一页
         if self.first_request:
             next_pages = response.css("#page a::attr(href)").extract()[0:-1]
             for next_page in next_pages:
@@ -31,7 +31,6 @@ class CocoachinaSpider(scrapy.Spider):
                 if next_page:
                     yield Request(url=parse.urljoin(response.url, next_page), callback=self.parse, dont_filter=True)
 
-        pass
 
     def parse_detail(self, response):
 
@@ -52,4 +51,5 @@ class CocoachinaSpider(scrapy.Spider):
         content = response.css("#detailbody").extract_first()   # 内容
 
         print(title, create_date, author, category, source, comments, views)
+
         pass
