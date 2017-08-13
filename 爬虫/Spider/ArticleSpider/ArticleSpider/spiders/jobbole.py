@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import re
+import datetime
 from scrapy.http import Request
 from urllib import parse
 
 from ArticleSpider.items import JobboleArticleItem
 
 from ArticleSpider.utils.common import get_md5
+
 
 class JobboleSpider(scrapy.Spider):
     name = 'jobbole'
@@ -104,6 +106,10 @@ class JobboleSpider(scrapy.Spider):
         给Item填充值
         """
         article_item["title"] = title
+        try:
+            create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
+        except Exception as error:
+            create_date = datetime.datetime.now()
         article_item["create_date"] = create_date
         article_item["url"] = response.url
         article_item["url_object_id"] = get_md5(response.url)
