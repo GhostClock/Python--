@@ -3,9 +3,10 @@ import scrapy
 import re
 import datetime
 from scrapy.http import Request
+from scrapy.loader import ItemLoader    # ItemLoader来生成Item
 from urllib import parse
 
-from ArticleSpider.items import JobboleArticleItem
+from ArticleSpider.items import JobboleArticleItem, ArticleItemLoader
 
 from ArticleSpider.utils.common import get_md5
 
@@ -69,6 +70,7 @@ class JobboleSpider(scrapy.Spider):
         print(title, create_date, praise_nums, comment_nums, tags)
         """
 
+        """
         # 通过css选择器提取字段
         front_image_url = response.meta.get("front_image_url", "")  # 文章封面图
 
@@ -102,9 +104,8 @@ class JobboleSpider(scrapy.Spider):
         print(title, create_date, praise_nums, comment_nums, tags)
 
 
-        """
-        给Item填充值
-        """
+        
+        #   给Item填充值
         article_item["title"] = title
         try:
             create_date = datetime.datetime.strptime(create_date, "%Y/%m/%d").date()
@@ -119,6 +120,27 @@ class JobboleSpider(scrapy.Spider):
         article_item["fav_nums"] = fav_nums
         article_item["tags"] = tags
         article_item["content"] = content
+        """
+
+
+        """
+        通过item Loader来加载Item  ----> 在以后的开发中都是用ItemLoader来解析值
+        """
+        front_image_url = response.meta.get("front_image_url", "")  # 文章封面图
+        item_loader = ArticleItemLoader(item=JobboleArticleItem(), response=response)
+
+        item_loader.add_css("title", ".entry-header h1::text")
+        item_loader.add_value("url", response.url)
+        item_loader.add_value("url_object_id", get_md5(response.url))
+        item_loader.add_css("create_date", "p.entry-meta-hide-on-mobile::text")
+        item_loader.add_value("front_image_url", [front_image_url])
+        item_loader.add_css("praise_nums", ".vote-post-up h10::text")
+        item_loader.add_css("comment_nums", "a[href='#article-comment'] span::text")
+        item_loader.add_css("fav_nums","span.bookmark-btn::text")
+        item_loader.add_css("tags", "p.entry-meta-hide-on-mobile a::text")
+        item_loader.add_css("content", "div.entry")
+
+        article_item = item_loader.load_item()
 
         """
         传递到pipeline类里面去
