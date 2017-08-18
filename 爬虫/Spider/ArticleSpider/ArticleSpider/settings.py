@@ -69,14 +69,14 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    # 'ArticleSpider.pipelines.JsonItemExporterPipeline': 2,
    # 'scrapy.pipelines.images.ImagesPipeline': 1,
-   # 'ArticleSpider.pipelines.ArticleImagePipeline': 1,
-   # 'ArticleSpider.pipelines.MysqlPipleline': 1,
-   'ArticleSpider.pipelines.MysqlTwistedPiplines': 1,
+   'ArticleSpider.pipelines.ArticleImagePipeline': 1,
+   # 'ArticleSpider.pipelines.MysqlPipleline': 1,y
+   # 'ArticleSpider.pipelines.MysqlTwistedPiplines': 1,
 }
 
-IMAGES_URLS_FIELD = "front_image_url" #   当做数组来处理
+IMAGES_URLS_FIELD = "front_image_url"  # 当做数组来处理
 project_dir = os.path.abspath(os.path.dirname(__file__))
-IMAGES_STORE = os.path.join(project_dir, "images") # 配置本地存放图片的路径
+IMAGES_STORE = os.path.join(project_dir, "images")    # 配置本地存放图片的路径
 
 # IMAGES_MIN_HEIGHT = 100 # 最小高度
 # IMAGES_MIN_WIDTH = 100  # 最小宽度

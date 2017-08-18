@@ -27,7 +27,7 @@ class JobboleSpider(scrapy.Spider):
         for post_node in post_nodes:
             image_url = post_node.css("img::attr(src)").extract_first("")   # 为了获取标题图片
             post_url = post_node.css("::attr(href)").extract_first("")
-            yield Request(url=parse.urljoin(response.url, post_url),meta={"front_image_url":image_url}, callback=self.parse_detail)
+            yield Request(url=parse.urljoin(response.url, post_url),meta={"front_image_url": image_url}, callback=self.parse_detail)
 
         # 提取下一页并提交给scrapy进行下载
         next_url = response.css(".next.page-numbers::attr(href)").extract_first("")

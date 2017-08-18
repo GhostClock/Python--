@@ -102,4 +102,33 @@ class JobboleArticleItem(scrapy.Item):
     content = scrapy.Field()    # 文章
 
 
+#   中关村在线 - 手机频道
+class mobile_colArticleItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+
+
+class mobile_zolArticleItem(scrapy.Item):
+    title = scrapy.Field()
+
+    url = scrapy.Field()
+
+    url_object_id = scrapy.Field()
+
+    front_image_url = scrapy.Field(
+        output_processor=MapCompose(return_value)
+    )
+
+    create_date = scrapy.Field(
+        input_processor=MapCompose(date_conver)
+    )
+
+    tags = scrapy.Field()
+
+    author = scrapy.Field()
+
+    editor = scrapy.Field()
+
+    content = scrapy.Field()
+
+
 
