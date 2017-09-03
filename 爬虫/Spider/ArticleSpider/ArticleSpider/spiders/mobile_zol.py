@@ -28,7 +28,7 @@ class MobileZolSpider(scrapy.Spider):
 
         # 提取下一页并提交给scrapy进行下载
         next_url = response.css(".page a.next::attr(href)").extract_first("")
-        if next_url :
+        if next_url:
             yield Request(url=parse.urljoin(response.url, next_url), callback=self.parse)
 
 

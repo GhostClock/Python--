@@ -21,7 +21,7 @@ NEWSPIDER_MODULE = 'ArticleSpider.spiders'
 #USER_AGENT = 'ArticleSpider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False  #  不让遵循robots协议
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -35,7 +35,8 @@ ROBOTSTXT_OBEY = True
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = True
+COOKIES_DEBUG = True
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -69,9 +70,10 @@ ROBOTSTXT_OBEY = True
 ITEM_PIPELINES = {
    # 'ArticleSpider.pipelines.JsonItemExporterPipeline': 2,
    # 'scrapy.pipelines.images.ImagesPipeline': 1,
-   'ArticleSpider.pipelines.ArticleImagePipeline': 1,
+   # 'ArticleSpider.pipelines.ArticleImagePipeline': 1,
    # 'ArticleSpider.pipelines.MysqlPipleline': 1,y
-   # 'ArticleSpider.pipelines.MysqlTwistedPiplines': 1,
+   'ArticleSpider.pipelines.MysqlTwistedPiplines': 1,
+   # 'ArticleSpider.pipelines.mobile_zolMysqlTwistedPiplines': 1
 }
 
 IMAGES_URLS_FIELD = "front_image_url"  # 当做数组来处理
@@ -106,6 +108,7 @@ IMAGES_STORE = os.path.join(project_dir, "images")    # 配置本地存放图片
 
 #  配置Mysql
 MYSQL_HOST = '192.168.0.100'
-MYSQL_DBANAME = 'article_spider'
+MYSQL_JOBBOLEDBANAME = 'article_spider'
+MYSQL_ZOLDBNAME = 'mobile_zol_article'
 MYSQL_USER = 'root'
 MYSQL_PASSWORD = 'admin123'

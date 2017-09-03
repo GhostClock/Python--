@@ -96,7 +96,7 @@ class MysqlTwistedPiplines(object):
     def from_settings(cls, settings):
         dbparms = dict(
             host=settings['MYSQL_HOST'],
-            db=settings['MYSQL_DBANAME'],
+            db=settings['MYSQL_JOBBOLEDBANAME'],
             user=settings['MYSQL_USER'],
             passwd=settings['MYSQL_PASSWORD'],
             charset='utf8',
@@ -132,6 +132,54 @@ class MysqlTwistedPiplines(object):
                         item["comment_nums"], item["fav_nums"], item["tags"], item["content"])
                        )
 
+
+#   把数据插入到数据库
+class mobile_zolMysqlTwistedPiplines(object):
+    def __init__(self, dbpool):
+        self.dbpool = dbpool
+
+    @classmethod
+    def getSettingDBinfo(cls, setting):
+        dbparms = dict(
+            host=setting['MYSQL_HOST'],
+            db=setting['mobile_zol_article'],
+            user=setting['MYSQL_USER'],
+            passwd=setting['MYSQL_PASSWORD'],
+            charset='utf8',
+            cursorclass=pymysql.cursors.DictCursor,
+            use_unicode=True
+        )
+        dbpool = adbapi.ConnectionPool('pymysql', **dbparms)
+
+        return cls(dbpool)
+
+    def process_item(self, item, spider):
+        query = self.dbpool.runInteraction(self.db_insertData, item)
+        query.addErrback(self.errorPrint, item, spider)
+
+    def errorPrint(self, error, item, spider):
+        print(error)
+
+    def db_insertData(self, cusor, item):
+        sql = """
+        INSERT INTO mobile_zol_article(
+          title, url, url_object_url,
+           front_image_url, create_date,
+            tags, author, editor, content
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        cusor.execute(sql,
+                      item.get['title'],
+                      item.get['url'],
+                      item.get['url_object_url'],
+                      item.get['front_image_url'][0],
+                      item.get['create_date'],
+                      item.get['tags'],
+                      item.get['author'],
+                      item.get['editor'],
+                      item.get['content'],
+                      )
 
 
 """
