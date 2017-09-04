@@ -112,3 +112,6 @@ MYSQL_JOBBOLEDBANAME = 'article_spider'
 MYSQL_ZOLDBNAME = 'mobile_zol_article'
 MYSQL_USER = 'root'
 MYSQL_PASSWORD = 'admin123'
+
+SQL_DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+SQL_DATE_FORMAT = "%Y-%m-%d"

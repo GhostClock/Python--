@@ -114,23 +114,13 @@ class MysqlTwistedPiplines(object):
 
     def handle_error(self, failuer, item, spider):
         #   处理异步插入的异常
-        print(failuer)
+        print(failuer.value)
 
     def do_insert(self, cursor, item):
         #   执行具体的插入
-        insert_sql = """
-                    insert into jobbole_article(
-                    title, create_date, url, url_object_id, front_image_url, front_image_path,
-                    praise_nums, comment_nums, fav_nums, tags, content
-                    )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                """
-
-        cursor.execute(insert_sql,
-                        (item["title"], item["create_date"], item["url"], item["url_object_id"],
-                        item["front_image_url"], item.get('front_image_url', "")[0], item["praise_nums"],
-                        item["comment_nums"], item["fav_nums"], item["tags"], item["content"])
-                       )
+        # 根据不同的 item 构建不同的sql语句并插入到mysql中
+        insert_sql, params = item.get_insert_sql()
+        cursor.execute(insert_sql, params)
 
 
 #   把数据插入到数据库

@@ -35,7 +35,7 @@ except:
         ①处理question页面， 从页面中提取出具体的question item 解析需要的数据
         ②将下一个要爬取的页面，根据提供的api接口进行获取，但是必须要要有一个起始的页面
         ③item yield 路由到pipellines进行处理
-        ④根据api接口返回的json数据来处理question的answer数据，一直到is_end为False才结束
+        ④根据api接口返回的json数据来处理question的answer数据，且要yield yield到pipellines,一直到is_end为False才结束
     d)如果不是question页面 则进一步跟踪
         ①异步再调用parse函数进行爬取
 """
@@ -66,6 +66,8 @@ class ZhihuSpider(scrapy.Spider):
         "Referer": "https://www.zhihu.com/",
         "User-Agent": user_agent_FireFox
     }
+
+    proxy_url = 'http://lab.crossincode.com/proxy/get/?num=5'
 
     def parse(self, response):
         """
@@ -168,6 +170,7 @@ class ZhihuSpider(scrapy.Spider):
         return Request(captcha_url,
                        headers=self.headers,
                        callback=self.login)
+
     # 4.
     def get_ver_code(self, response):
         with open('captcha.jpg', 'wb') as f:
@@ -181,6 +184,7 @@ class ZhihuSpider(scrapy.Spider):
         except IOError as e:
             print(u'请到 %s 目录找到captcha.jpg 手动输入' % os.path.abspath('captcha.jpg'))
         captcha = input("输入验证码\n>")
+
         return captcha
 
     # 3.
