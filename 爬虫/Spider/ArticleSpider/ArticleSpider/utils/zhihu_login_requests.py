@@ -125,6 +125,6 @@ def is_login():
         return True
 
 
-# zhihu_login("", "")
-# get_index()
-is_login()
+zhihu_login("", "")
+get_index()
+# is_login()

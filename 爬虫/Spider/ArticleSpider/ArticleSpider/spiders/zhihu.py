@@ -67,8 +67,6 @@ class ZhihuSpider(scrapy.Spider):
         "User-Agent": user_agent_FireFox
     }
 
-    proxy_url = 'http://lab.crossincode.com/proxy/get/?num=5'
-
     def parse(self, response):
         """
         深度优先 - 提取出html页面中所有url 并跟踪这些URL并进一步爬取
@@ -192,8 +190,8 @@ class ZhihuSpider(scrapy.Spider):
         post_url = "https://www.zhihu.com/login/email"
         post_data = {
             "_xsrf": self._xsrf,
-            "email": "",
-            "password": "",
+            "email": "zhangyuanlaifen@163.com",
+            "password": "yuanhappy1314",
             "captcha": self.get_ver_code(response)
         }
         return [FormRequest(
