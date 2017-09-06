@@ -4,12 +4,12 @@ __author__ = 'ghostclock'
 """
 模拟知乎登录
 """
-import requests
-import re
-import json
-import time
 import os.path
-from ArticleSpider.utils.zheye import zheye
+import re
+import time
+
+import requests
+
 try:
     import cookielib
 except:

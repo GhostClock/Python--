@@ -2,10 +2,12 @@
 # -*- coding: UTF-8 -*-
 # Recognizing class 
 
-from sklearn.mixture import GaussianMixture
-from PIL import Image
-from zheye import util
 import numpy as np
+from PIL import Image
+from sklearn.mixture import GaussianMixture
+
+from ArticleSpider.utils.zheye import util
+
 
 class zheye:
     def __init__(self):

@@ -5,9 +5,11 @@ import time
 import os.path
 import json
 import datetime
+import shutil
 from scrapy.http import FormRequest,Request
 from scrapy.loader import ItemLoader
 from ArticleSpider.items import ZhihuAnswerItem,ZhihuQuestionItem
+from ArticleSpider.utils.zheye import zheye
 try:
     from PIL import Image
 except:
@@ -154,7 +156,9 @@ class ZhihuSpider(scrapy.Spider):
         """
         return [FormRequest(url="https://www.zhihu.com/#signin",
                             headers=self.headers,
-                            callback=self.get_xsrf)]
+                            # callback=self.get_xsrf)
+                            callback=self.get_xsrf_for_cn) # self.get_xsrf 是数字验证码登录 self.get_xsrf_for_cn 是中文倒立验证码登录
+                ]
 
     # 2.
     def get_xsrf(self, response):
@@ -162,15 +166,54 @@ class ZhihuSpider(scrapy.Spider):
                              response.body, re.DOTALL)  # 匹配全局，换行
         if match_obj:
             self._xsrf = match_obj.group(1)
-
+        # 获取数字字母验证码
         t = str(int(time.time() * 1000))
         captcha_url = 'https://www.zhihu.com/captcha.gif?r=' + t + "&type=login"
         return Request(captcha_url,
                        headers=self.headers,
                        callback=self.login)
 
+    def get_xsrf_for_cn(self, response):
+        """
+        中文验证码登录逻辑
+        """
+        match_obj = re.match(b'.*name="_xsrf" value="(.*?)"',
+                             response.body, re.DOTALL)  # 匹配全局，换行
+        if match_obj:
+            self._xsrf = match_obj.group(1)
+        time_date = str(int(time.time() * 1000))
+        captcha_url = "https://www.zhihu.com/captcha.gif?r={}&type=login&lang=cn".format(time_date)
+        return Request(captcha_url, headers=self.headers, callback=self.login_cn)
+
+    def get_captcha_cn(self, response):
+        """
+        获取中文倒立验证码 处理倒立验证码
+        """
+        with open('cn_captcha.gif', 'wb') as f:
+            f.write(response.body)
+            f.close()
+        z = zheye()
+        positions = z.Recognize("cn_captcha.gif")  # 返回的tuple的第二个值是x坐标，第一个值是y坐标，笛卡尔坐标系 [(y, x), (y, x)]
+        print(positions)
+
+        poss = []
+        if len(positions) == 2:
+            if positions[0][1] > positions[1][1]:
+                poss.append([positions[1][1] / 2, positions[1][0] / 2])
+                poss.append([positions[0][1] / 2, positions[0][0] / 2])
+            else:
+                poss.append([positions[0][1] / 2, positions[0][0] / 2])
+                poss.append([positions[1][1] / 2, positions[1][0] / 2])
+        else:
+            poss.append([positions[0][1], positions[0][0]])
+        print("处理后的坐标 ", poss)
+
+        captcha_str = '{"img_size": [200, 44], "input_points": %s}' % poss
+        print("captcha_str ", captcha_str)
+        return captcha_str
+
     # 4.
-    def get_ver_code(self, response):
+    def get_captcha(self, response):
         with open('captcha.jpg', 'wb') as f:
             f.write(response.body)
             f.close()
@@ -192,7 +235,7 @@ class ZhihuSpider(scrapy.Spider):
             "_xsrf": self._xsrf,
             "email": "zhangyuanlaifen@163.com",
             "password": "yuanhappy1314",
-            "captcha": self.get_ver_code(response)
+            "captcha": self.get_captcha(response)
         }
         return [FormRequest(
             url=post_url,
@@ -200,6 +243,26 @@ class ZhihuSpider(scrapy.Spider):
             headers=self.headers,
             callback=self.check_login
         )]
+
+    def login_cn(self, response):
+        """
+        中文验证码登录
+        """
+        post_url = "https://www.zhihu.com/login/email"
+        post_data = {
+            "_xsrf": self._xsrf,
+            "email": "",
+            "password": "",
+            "captcha": self.get_captcha_cn(response),
+            "captcha_type": "cn"
+        }
+        return [FormRequest(
+            url=post_url,
+            formdata=post_data,
+            headers=self.headers,
+            callback=self.check_login
+        )]
+
 
     # 5.
     def check_login(self, response):
