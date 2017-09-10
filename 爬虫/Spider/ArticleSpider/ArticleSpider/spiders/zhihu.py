@@ -66,7 +66,7 @@ class ZhihuSpider(scrapy.Spider):
     headers = {
         "Host": "www.zhihu.com",
         "Referer": "https://www.zhihu.com/",
-        "User-Agent": user_agent_FireFox
+        "User-Agent": user_agent_Android
     }
 
     def parse(self, response):
@@ -233,8 +233,8 @@ class ZhihuSpider(scrapy.Spider):
         post_url = "https://www.zhihu.com/login/email"
         post_data = {
             "_xsrf": self._xsrf,
-            "email": "zhangyuanlaifen@163.com",
-            "password": "yuanhappy1314",
+            "email": "",
+            "password": "",
             "captcha": self.get_captcha(response)
         }
         return [FormRequest(
